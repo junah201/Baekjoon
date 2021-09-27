@@ -2,11 +2,22 @@
 
 #include <stdio.h>
 
-int N;
-
 int main() {
-    scanf("%d",&N);
-    if(N<9&&N%5!=0)
-    if(N%5==0) printf("%d",N/5);
-    else if((N%5)%3==0) printf("%d",N/5+(N%5)/3);
+    int N; scanf("%d",&N);
+    int F=N/5+1,T=0;
+    for(int i=0;;i++) {
+        if(F-i<0) {
+            printf("-1");
+            goto EXIT;
+        }
+        for(int j=0;;j++) {
+            if(5*(F-i)+3*(T+j)>N) break;
+            else if(5*(F-i)+3*(T+j)==N) {
+                printf("%d",(F-i)+(T+j));
+                goto EXIT;
+            }
+        }
+    }
+    EXIT:
+        return 0;
 }
