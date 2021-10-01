@@ -2,28 +2,23 @@
 
 #include <stdio.h>
 
-int N,count;
-
-int main() {
+int main(void)
+{
+    int a=1, i=1;
+    int N;
     scanf("%d",&N);
     if(N==1) {
         printf("1");
         return 0;
     }
-    count=1;
-    int i=7;
-    while(1) {
-        if(N-i>0) {
-            N-=i;
-            i+=6;
-            count+=1;
-        }else{
+    while (1) {
+        a += 6 * i;
+        if (a>=N)
+        {
+            printf("%d",i+1);
             break;
         }
+        i++;
     }
-    printf("%d",count+1);
     return 0;
 }
-
-//2~7 : 2
-//8~19 : 3
