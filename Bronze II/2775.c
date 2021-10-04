@@ -14,7 +14,7 @@ int main() {
     int n,k;
     for(int i=0;i<T;i++) {
         scanf("%d %d",&k,&n);
-        printf("%d",get(k,n));
+        printf("%d\n",get(k,n));
     }
     return 0;
 }

@@ -13,8 +13,7 @@ int main(void)
     }
     while (1) {
         a += 6 * i;
-        if (a>=N)
-        {
+        if (a>=N) {
             printf("%d",i+1);
             break;
         }
