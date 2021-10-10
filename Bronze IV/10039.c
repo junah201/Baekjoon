@@ -9,7 +9,6 @@ int main() {
         if(a<40) sum+=40;
         else sum+=a;
     }
-    
-    printf("%d",(sum/5);
+    printf("%d",sum/5);
     return 0;
 }
