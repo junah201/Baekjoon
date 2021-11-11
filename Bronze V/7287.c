@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 int main() {
-    printf("30\nwhite201");
+    printf("16\njunah");
 
     return 0;
 }
