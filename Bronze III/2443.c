@@ -7,9 +7,8 @@ int N;
 int main() {
     scanf("%d",&N);
 	for(int i=0;i<N;i++){
-        for(int j=i;j<N-1;j++) printf(" ");
-        for(int j=0;j<i;j++) printf("*");
-        for(int j=0;j<i;j++) printf("*");
+        for(int j=0;j<i;j++) printf(" ");
+        for(int j=i;j<N-1;j++) printf("*");
         printf("*");
         for(int j=i;j<N-1;j++) printf("*");
         printf(" ");
