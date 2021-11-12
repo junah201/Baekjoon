@@ -1,4 +1,4 @@
-//10814
+//10814  나이순 정렬
 
 #include <stdio.h>
 #include <string>
