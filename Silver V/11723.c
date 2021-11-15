@@ -1,31 +1,33 @@
 //11723  집합
 
 #include <stdio.h>
-#include <string.h>
 
-char command[10];
-int arr[21];
-int T,X;
-
+int Arr[21];
+char command[21];
 int main() {
-    scanf("%d",&T);
-    for(int i=0;i<T;i++) {
-        scanf(" %s %d",command,&X);
-        if(strcmp(command, "add")) {
-            arr[X]=1;
-        }else if(strcmp(command, "remove")) {
-            arr[X]=0;
-        }else if(strcmp(command, "check")) {
-            printf("%d\n",arr[X]!=0);
-        }else if(strcmp(command, "toggle")) {
-            arr[X]=!(arr[X]);
-        }else if(strcmp(command, "all")) {
-            for(int j=0;j<21;j++) {
-                arr[j]=1;
+    int n,x;
+    scanf("%d",&n);
+    for(int i=0;i<n;i++) {
+        scanf(" %s",command);
+        if(command[0]=='a'&&command[1]=='d') {
+            scanf("%d",&x);
+            Arr[x]=1;
+        }else if(command[0]=='r') {
+            scanf("%d",&x);
+            Arr[x]=0;
+        }else if(command[0]=='c') {
+            scanf("%d",&x);
+            printf("%d\n",Arr[x]);
+        }else if(command[0]=='t') {
+            scanf("%d",&x);
+            Arr[x]=!Arr[x];
+        }else if(command[0]=='a'&&command[1]=='l') {
+            for(int i=0;i<21;i++) {
+                Arr[i]=1;
             }
-        }else if(strcmp(command, "empty")) {
-            for(int j=0;j<21;j++) {
-                arr[j]=0;
+        }else if(command[0]=='e') {
+            for(int i=0;i<21;i++) {
+                Arr[i]=0;
             }
         }
     }

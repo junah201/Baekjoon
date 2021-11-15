@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-long long int dp[46]={0,};
+long long int dp[100]={0,};
 
 
 long long int get(int idx) {
@@ -12,9 +12,10 @@ long long int get(int idx) {
     return dp[idx];
 }
 int main() {
-    //int N; scanf("%d",&N);
+    int N; 
+    scanf("%d",&N);
     dp[0]=0;
     dp[1]=1;
-    for(int i=0;i<=90;i++) printf("%lld\n",get(i));
+    printf("%lld\n",get(N));
     return 0;
 }
