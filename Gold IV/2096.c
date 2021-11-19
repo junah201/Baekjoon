@@ -35,7 +35,6 @@ int main() {
         maxDP[0]=max(maxDP[0],maxDP[1]) + a;
         maxDP[2]=max(maxDP[1],maxDP[2]) + c;
         maxDP[1]=max(max(temp0,maxDP[1]),temp2) + b;
-
     }
     printf("%d %d",max(max(maxDP[0],maxDP[1]),maxDP[2]),min(min(minDP[0],minDP[1]),minDP[2]));
     return 0;
