@@ -2,36 +2,37 @@
 
 #include <stdio.h>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
+struct person
+{
+    int age;
+    int idx;
+    string name;
+};
+
+person people[100000];
 int N;
-string name[100000];
-int age[100000];
+char temp[101];
 
 int main() {
     scanf("%d",&N);
     for(int i=0;i<N;i++) {
-        scanf("%d %s",&age[i],name[i].c_str());
+        scanf("%d %s",&people[i].age,temp);
+        people[i].name = temp;
+        people[i].idx = i;
     }
 
-    for(int i=0;i<N-1;i++) {
-        for(int j=0;j<N-1-i;j++) {
-            if(age[j]>age[j+1]) {
-                int temp=age[j];
-                age[j]=age[j+1];
-                age[j+1]=temp;
-
-                string temp2=name[j];
-                name[j]=name[j+1];
-                name[j+1]=temp2;
-            }
-        }
-    }
+    sort(people, people+N, [](person a, person b) {
+        if(a.age==b.age) return a.idx<b.idx;
+        return a.age<b.age;
+    });
 
     //출력
     for(int i=0;i<N;i++) {
-        printf("%d %s\n",age[i],name[i]);
+        printf("%d %s\n",people[i].age,people[i].name.c_str());
     }
     return 0;
 }

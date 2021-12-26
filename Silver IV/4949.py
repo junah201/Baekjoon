@@ -24,3 +24,9 @@ while True:
         if(temp[i]=="(" or temp[i]==")" or temp[i]=="[" or temp[i]=="]"):
             string += temp[i]
     check(string)
+
+
+arr = [1,2,3,4,5]
+for i in arr:
+    print(i)
+print(f"개수는 {len(arr)}")

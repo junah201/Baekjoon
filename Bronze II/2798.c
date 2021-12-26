@@ -3,24 +3,25 @@
 #include <stdio.h>
 
 int N,M; 
-int input_Arr[100];
-int check_Arr[100] = {0,};
-int print_Arr[3];
+int input[100];
+int check[100] = {0,};
+int result[3];
 int max=0;
 
-int get(int idx) {
+int get(int idx,int start) {
     if(idx==3) {
-        if(print_Arr[0]+print_Arr[1]+print_Arr[2]>max && print_Arr[0]+print_Arr[1]+print_Arr[2]<=M) {
-            max=print_Arr[0]+print_Arr[1]+print_Arr[2];
+        if(result[0]+result[1]+result[2]>max && result[0]+result[1]+result[2]<=M) {
+            max = result[0]+result[1]+result[2];
         }
+        //printf("%d %d %d\n",result[0],result[1],result[2]);
         return 0;
     }
-    for(int i=0;i<N;i++) {
-        if(check_Arr[i]==0) {
-            check_Arr[i]=1;
-            print_Arr[idx]=input_Arr[i];
-            get(idx+1);
-            check_Arr[i]=0;
+    for(int i=start;i<N;i++) {
+        if(check[i]==0) {
+            check[i]=1;
+            result[idx]=input[i];
+            get(idx+1,i+1);
+            check[i]=0;
         }
     }
     return 0;
@@ -28,8 +29,8 @@ int get(int idx) {
 
 int main() {
     scanf("%d %d",&N,&M);
-    for(int i=0;i<N;i++) scanf("%d",&input_Arr[i]);
-    get(0);
+    for(int i=0;i<N;i++) scanf("%d",&input[i]);
+    get(0,0);
     printf("%d",max);
     return 0;
 }
