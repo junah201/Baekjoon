@@ -4,27 +4,38 @@
 #include <algorithm>
 
 using namespace std;
-int check[100000],input[100000];
-int N,M,num;
-int main() {
-    scanf("%d",&N);
-    for(int i=0;i<N;i++) scanf("%d",&check[i]);
-    sort(check,check+N);
-    scanf("%d",&M); 
-    int start=0,end=N-1;
-    for(int i=0;i<M;i++) {
-        scanf("%d",&num);
-        while(1) {
-            if(!(start+1==end)) {
-                printf("0\n");
-                break;
-            } else if(check[(start+end)/2]==num) {
-                printf("1\n");
-                break;
-            } else if(check[(start+end)/2]>num) start=(start+end)/2;
-            else if(check[(start+end)/2]<num) end=(start+end)/2;
+
+int N,M,r,l;
+int A[100000],key;
+
+int search(int key) {
+    int low = 0;
+    int high = N-1;
+    int mid;
+
+    while(low <= high) {
+        mid = (low+high)/2;
+        if(A[mid]==key) {
+            return 1;
+        } else if(key<A[mid]) {
+            high = mid - 1;
+        } else if(key>A[mid]) {
+            low = mid + 1;
         }
     }
     return 0;
 }
 
+int main() {
+    scanf("%d",&N);
+    for(int i=0;i<N;i++) {
+        scanf("%d",&A[i]);
+    }
+    sort(A,A+N);
+    scanf("%d",&M);
+    for(int i=0;i<M;i++) {
+        scanf("%d",&key);
+        printf("%d\n",search(key));
+    }
+    return 0;
+}

@@ -3,42 +3,40 @@
 #include <stdio.h>
 #include <string.h>
 
-int N;
-int count=0;
-char str[11];
-int check[11] = {0,};
-char result[11];
-int check2=1;
+char n[11]; //input
+char r[11]; //result
+int c[11]; //check
+int i_cnt,r_cnt; //input, result
+int len,not_print;
 
-int get(int idx) {
-	if(idx==strlen(str)) {
-		count+=1;
-		if(count==N) {
-			printf("%s %d = %s\n",str, N, result);
-			check2=0;
-			return 1;
+int f(int idx) {
+	if(!not_print) return 0;
+	if(idx==len) {
+		r_cnt++;
+		if(r_cnt==i_cnt) {
+			printf("%s %d = %s\n",n,r_cnt,r);
+			not_print = 0;
 		}
 		return 0;
 	}
-	for(int i=0;i<strlen(str);i++) {
-		if(check[i]==0) {
-			check[i]=1;
-			result[idx]=str[i];
-			get(idx+1);
-			check[i]=0;
-		}   
+	for(int i=0;i<len;i++) {
+		if(c[i]==0) {
+			r[idx] = n[i];
+			c[i] = 1;
+			f(idx+1);
+			c[i] = 0;
+		}
 	}
 	return 0;
 }
 
 int main() {
-	while(scanf("%s %d",str,&N)!=EOF){
-		count=0;
-		check2=1;
-		get(0);
-		if(check2) {
-			printf("%s %d = No permutation\n",str,N);
-		};
+	while (scanf("%s %d", &n, &i_cnt) != EOF) {
+		len = strlen(n);
+		r_cnt = 0;
+		not_print=1;
+		f(0);
+		if(not_print) printf("%s %d = No permutation\n",n,r_cnt);
 	}
 	return 0;
 }
