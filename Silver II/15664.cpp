@@ -15,11 +15,11 @@ int f(int idx,int start) {
         printf("\n");
         return 0;
     }
-    for(int i=0;i<=N;i++) {
+    for(int i=start;i<=N;i++) {
         if(cnt[i]) {
             result[idx]=value[i];
             cnt[i]--;
-            f(idx+1);
+            f(idx+1,i);
             cnt[i]++;
         }
     }

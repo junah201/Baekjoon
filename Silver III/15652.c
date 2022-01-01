@@ -13,7 +13,7 @@ int f(int idx,int start) {
         printf("\n");
         return 0;
     }
-    for(int i=0;i<N;i++) {
+    for(int i=start;i<N;i++) {
         result[idx]=i+1;
         f(idx+1,i);
     }

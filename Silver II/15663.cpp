@@ -15,7 +15,7 @@ int f(int idx) {
         printf("\n");
         return 0;
     }
-    for(int i=0;i<N;i++) {
+    for(int i=0;i<N+1;i++) {
         if(cnt[i]) {
             result[idx]=value[i];
             cnt[i]--;

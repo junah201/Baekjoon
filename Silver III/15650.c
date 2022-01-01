@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 int N,M;
-int result[8];
+int result[8],check[8];
 
 int f(int idx,int start) {
     if(idx==M) {
@@ -14,8 +14,11 @@ int f(int idx,int start) {
         return 0;
     }
     for(int i=start;i<N;i++) {
-        result[idx]=i+1;
-        f(idx+1,i+1);
+            check[i]=1;
+            result[idx]=i+1;
+            f(idx+1,i+1);
+            check[i]=0;
+        }
     }
     return 0;
 }
