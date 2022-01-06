@@ -11,52 +11,14 @@ char str[100001];
 int check() {
     stack <char> s;
     int len = strlen(str);
-    int in_A=0, in_B=0;
     if(len%2==1) return 0;
     for(int i=0;i<len;i++) {
-        if(str[i]=='A') {
-            if(in_A) {
-                if(s.top()=='A') {
-                    //printf("1 1 \n");
-                    s.pop();
-                    //in_A--;
-                    in_A=0;
-                }
-                else {
-                    //printf("1 0 \n");
-                    return 0;
-                }
-            }
-            else {
-                //printf("1 2\n");
-                s.push('A');
-                //in_A++;
-                in_A=1;
-            }
-        }
-        else {
-            if(in_B) {
-                if(s.top()=='B') {
-                    //printf("2 1 \n");
-                    s.pop();
-                    //in_B--;
-                    in_B=0;
-                }
-                else {
-                    //printf("2 0 \n");
-                    return 0;
-                }
-            }
-            else {
-                //printf("2 2 \n");
-                s.push('B');
-                //in_B++;
-                in_B=1;
-            }
-        }
+        if(s.empty()) s.push(str[i]);
+        else if(str[i]==s.top()) s.pop();
+        else s.push(str[i]);
     }
-    if(in_A!=0 || in_B!=0) return 0;
-    return 1;
+    if(s.empty()) return 1;
+    return 0;
 }
 
 int main() {

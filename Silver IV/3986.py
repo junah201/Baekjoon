@@ -20,4 +20,3 @@ for i in range(N):
     cnt+=check(input())
 
 print(cnt)
-    
