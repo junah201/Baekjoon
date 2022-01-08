@@ -32,6 +32,6 @@ int main() {
     for(int i=min;i<=max;i++) {
         cnt+=check(i);
     }
-    printf("%d",cnt);
+    printf("%d",max-min+1-cnt);
     return 0;
 }
