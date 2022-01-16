@@ -7,6 +7,49 @@ int map[10][10];
 int ten[10];
 int T,is_print = 0;
 
+
+void init_ten() {
+    for(int i=0;i<=9;i++) ten[i]=0;
+}
+
+int is_can_complete() {
+    //가로
+    for(int i=1;i<=9;i++) {
+        init_ten();
+        for(int j=1;j<=9;j++) {
+            ten[map[i][j]]++;
+            if(map[i][j]!=0 && ten[map[i][j]]>1) {
+                return 0;
+            }
+        }
+    }
+    //세로
+    for(int i=1;i<=9;i++) {
+        init_ten();
+        for(int j=1;j<=9;j++) {
+            ten[map[j][i]]++;
+            if(map[i][j]!=0 && ten[map[i][j]]>1) {
+                return 0;
+            }
+        }
+    }
+    //3x3
+    for(int i=1;i<=9;i+=3) {
+        for(int j=1;j<=9;j+=3) {
+            init_ten();
+            for(int x=i;x<i+3;x++) {
+                for(int y=j;y<j+3;y++) {
+                    ten[map[y][x]]++;
+                    if(map[y][x]!=0 && ten[map[y][x]]>1) {
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+    return 1;
+}
+
 void print_map() {
     for(int i=1;i<=9;i++) {
         for(int j=1;j<=9;j++) {
@@ -41,6 +84,7 @@ void check(int x,int y) {
         }
     }
 }
+     
 
 void f(int x,int y) {
     //출력되었을때
@@ -80,47 +124,14 @@ int main() {
                 scanf("%1d",&map[i][j]);
             }
         }
-        is_print=0;
-        f(1,1);
-        if(is_print==0) printf("Could not complete this grid.\n\n");
+        if(is_can_complete()){
+            is_print=0;
+            f(1,1);
+            if(is_print==0) printf("Could not complete this grid.\n\n");
+        }
+        else {
+            printf("Could not complete this grid.\n\n");
+        }
     }
     return 0;
 }
-
-/*
-void init_ten() {
-    for(int i=1;i<=9;i++) ten[i]=0;
-}
-
-bool is_can_complete() {
-    //가로
-    for(int i=1;i<=9;i++) {
-        init_ten();
-        for(int j=1;j<=9;j++) {
-            ten[map[i][j]]++;
-            if(ten[map[i][j]]>1) return false;
-        }
-    }
-    //세로
-    for(int i=1;i<=9;i++) {
-        init_ten();
-        for(int j=1;j<=9;j++) {
-            ten[map[j][i]]++;
-            if(ten[map[j][i]]>1) return false;
-        }
-    }
-    //3x3
-    for(int i=0;i<=9;i+=3) {
-        for(int j=0;j<=9;j+=3) {
-            init_ten();
-            for(int x=i;x<i+3;x++) {
-                for(int y=j;y<j+3;j++) {
-                    ten[map[y][x]]++;
-                    if(ten[map[y][x]]>1) return false;
-                }
-            }
-        }
-    }
-    return true;
-}
-*/
