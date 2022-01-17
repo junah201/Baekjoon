@@ -6,16 +6,14 @@
 char n[11]; //input
 char r[11]; //result
 int c[11]; //check
-int i_cnt,r_cnt; //input, result
-int len,not_print;
+int i_cnt,r_cnt,len; //input, result, len
+int fac[11] = {1,1,2,6,24,120,720,5040,40320,362880,3628800};
 
 int f(int idx) {
-	if(!not_print) return 0;
 	if(idx==len) {
 		r_cnt++;
 		if(r_cnt==i_cnt) {
 			printf("%s %d = %s\n",n,r_cnt,r);
-			not_print = 0;
 		}
 		return 0;
 	}
@@ -33,10 +31,19 @@ int f(int idx) {
 int main() {
 	while (scanf("%s %d", &n, &i_cnt) != EOF) {
 		len = strlen(n);
-		r_cnt = 0;
-		not_print=1;
-		f(0);
-		if(not_print) printf("%s %d = No permutation\n",n,r_cnt);
+		if(fac[len]<i_cnt) {
+			printf("%s %d = No permutation\n",n,i_cnt);
+			continue;
+		}
+		else {
+			r_cnt = 0;
+			f(0);
+		}
+		for(int i=0;i<len;i++) {
+			n[i] = 0;
+			r[i] = 0;
+		}
+		
 	}
 	return 0;
 }
