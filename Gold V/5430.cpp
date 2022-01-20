@@ -7,7 +7,7 @@
 using namespace std;
 
 deque <int> d;
-int T,cmd_len,input_len,start;
+int T,cmd_len,input_len,start,num;
 char cmd[100001],temp[300];
 
 int get() {
@@ -21,8 +21,11 @@ int get() {
     scanf("%d",&input_len);
     scanf("%s",&temp);
     for(int i=1;i<input_len*2;i+=2) {
+        
         d.push_back(temp[i]-'0');
+        printf("%d ",temp[i]-'0');
     }
+    printf("\n");
     for(int i=0;i<cmd_len;i++) {
         if(cmd[i]=='R') start = !start;
         else if(d.size()==0) {
@@ -57,7 +60,6 @@ int get() {
             d.pop_back();
         }
     }
-    
     printf("]\n");
     return 0;
 }
