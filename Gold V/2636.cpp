@@ -1,3 +1,6 @@
+// 2636 치즈
+// https://www.acmicpc.net/source/39081091
+
 #include <stdio.h>
 #include <queue>
 
@@ -47,13 +50,7 @@ int bfs() {
         if(orgin_time != idx.time) {
             orgin_cnt = now_cnt;
             now_cnt = 0;
-            for(int i=1;i<=N;i++) {
-                for(int j=1;j<=M;j++) {
-                    //printf("%d ", map[i][j]);
-                    now_cnt += map[i][j];
-                }
-                printf("\n");
-            }
+            for(int i=1;i<=N;i++) for(int j=1;j<=M;j++) now_cnt += map[i][j];
         }
         orgin_time = idx.time;
 
@@ -61,6 +58,7 @@ int bfs() {
         check[idx.y][idx.x] = 0;
         dfs(idx.x, idx.y, idx.time+1);
     }
+    if(orgin_cnt!=0 && idx.time == 0) idx.time = 1;
     return idx.time;
 }
 
@@ -72,6 +70,6 @@ int main() {
             orgin_cnt += map[i][j];
         }
     bfs();
-    printf("%d\n%d",idx.time, orgin_cnt);
+    printf("%d\n%d\n",idx.time, orgin_cnt);
     return 0;
 }
