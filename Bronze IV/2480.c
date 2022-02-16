@@ -1,9 +1,9 @@
-//2480  주사위 세개
+// 2480  주사위 세개
 
 #include <stdio.h>
 #define max(a,b) (a>b?a:b)
 
-int a,b,c,sum;
+int a,b,c;
 
 int main() {
     scanf("%d %d %d",&a,&b,&c);
