@@ -13,7 +13,9 @@ struct block {
     int x;
     int y;
     int cnt;
-} s, e;
+} s, e, pre[52][52];
+
+deque <block> d;
 
 int bfs() {
     queue <block> q;
@@ -33,6 +35,8 @@ int bfs() {
 
             if(rx <= 0 || ry <= 0 || rx > N || ry > N) continue;
             if(cost[rx][ry] > cur.cnt + map[rx][ry]) {
+                pre[rx][ry] = cur;
+                // printf("(%d.%d)\n", pre[rx][ry].x, pre[rx][ry].y);
                 cost[rx][ry] = cur.cnt + map[rx][ry];
                 q.push({rx, ry, cost[rx][ry]});
             }
@@ -75,17 +79,46 @@ int main() {
         map[x2][y2] += K;
     }
     for(int y=1;y<=N;y++) for(int x=1;x<=N;x++) if(map[x][y] == 0) map[x][y] = 1;
-    printf("%d", bfs());
+    printf("%d\n", bfs());
+    
+    deque <block> result;
 
-    /*
-    for(int y=1;y<=N;y++) {
-        for(int x=1;x<=N;x++) {
-            printf("%d ", map[x][y]);
-        }
-        printf("\n");
+    d.push_back(e);
+    auto idx = pre[e.x][e.y];
+    d.push_back(idx);
+    int cnt  = 0;
+    while(idx.x != s.x || idx.y != s.y) {
+        cnt ++;
+        idx = pre[idx.x][idx.y];
+        d.push_back(idx);
     }
-    */
-
-
+    int pos[2];
+    auto cur1 = d.back();
+    d.pop_back();
+    result.push_back(cur1);
+    auto cur2 = d.back();
+    d.pop_back();
+    pos[0] = cur1.x - cur2.x;
+    pos[1] = cur1.y - cur2.y;
+    cur1 = cur2;
+    while(!d.empty()) {
+        cur2 = d.back();
+        d.pop_back();
+        // printf("(%d, %d) -> (%d, %d)\n", cur1.x, cur1.y, cur2.x, cur2.y);
+        // printf("%d %d -> %d %d\n", pos[0], pos[1], cur1.x - cur2.x, cur1.y - cur2.y);
+        if(pos[0] != cur1.x - cur2.x || pos[1] != cur1.y - cur2.y) {
+            result.push_back(cur1);
+            pos[0] = cur1.x - cur2.x;
+            pos[1] = cur1.y - cur2.y;
+        }
+        cur1 = cur2;
+    }
+    if(result.back().x != e.x || result.back().y != e.y) result.push_back(e);
+    printf("%d ", result.size());
+    while(!result.empty()) {
+        auto temp = result.front();
+        result.pop_front();
+        printf("%d %d ", temp.y, temp.x);
+    }
     return 0;
 }
