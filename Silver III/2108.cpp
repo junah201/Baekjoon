@@ -1,4 +1,5 @@
-//2108  통계학
+// 2108  통계학
+// https://www.acmicpc.net/source/39411529
 
 #include <stdio.h>
 #include <algorithm>
@@ -18,14 +19,10 @@ int main() {
     sort(Arr,Arr+N);
     //산술평균
     for(int i=0;i<N;i++) sum+=Arr[i];
-    printf("%.0lf\n",sum/(double)N);
+    if(sum/(double)N >= -0.5 && sum/(double)N < 0) printf("0\n");
+    else printf("%.0lf\n",sum/(double)N);
     //중앙값
     printf("%.0lf\n",Arr[N/2]);
-    /*
-    if(N==1) printf("%.0lf\n",Arr[0]);
-    else if(N%2==1) printf("%.lf\n",(Arr[N/2]+Arr[N/2+1])/2.0);
-    else printf("%.0lf\n",Arr[N/2]);
-    */
     //최빈값
     for(int i=0;i<N;i++) {
         cnt[(int)Arr[i]+4000]++;
