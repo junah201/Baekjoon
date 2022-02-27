@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-int idx, check;
+int car_idx, check;
 int N, R, C;
 int two[20] = {0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768};
 
@@ -15,10 +15,10 @@ void get(int x, int y, int stack)
     {
         if (x == C && y == R)
         {
-            printf("%d", idx);
+            printf("%d", car_idx);
             check = 1;
         }
-        idx++;
+        car_idx++;
         return;
     }
     if (R < y + two[stack + 1] && R >= y && C < x + two[stack + 1] && C >= x)
@@ -30,7 +30,7 @@ void get(int x, int y, int stack)
     }
     else
     {
-        idx += two[stack + 1] * two[stack + 1];
+        car_idx += two[stack + 1] * two[stack + 1];
     }
 }
 
