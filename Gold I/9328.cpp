@@ -25,14 +25,22 @@ void set_keys()
     }
 }
 
-int bfs()
+int bfs(char default_key[30])
 {
+    bool visited[33554431][102][102];
     int result = 0;
     queue<info> q;
+
+    int len = strlen(default_key);
+    int orgin_key = 0;
+    if (default_key[0] != '0')
+        for (int i = 0; i < len; i++)
+            orgin_key = orgin_key | (default_key[i] - 'a');
+
     for (int y = 0; y < H; y++)
         for (int x = 0; x < W; x++)
             if ((x == 0 || y == 0 || x == W - 1 || y == H - 1) && inp[y][x] == '*')
-                q.push({x, y, 0});
+                q.push({x, y, orgin_key});
 
     while (!q.empty())
     {
@@ -47,17 +55,31 @@ int bfs()
             // 범위 밖
             if (rx < 0 || ry < 0 || rx >= W || ry >= H)
                 continue;
+            // 이미 갔던 칸
+            if (visited[cur.key][ry][rx])
+                continue;
             // 벽
             if (inp[ry][rx] == '*')
                 continue;
             // 문서
             if (inp[ry][rx] == '$')
             {
+                visited[cur.key][ry][rx] = 1;
                 inp[ry][rx] = '.';
+                result++;
+                q.push({rx, ry, cur.key});
+            }
+            // 열쇠
+            if (inp[ry][rx] >= 'a' && inp[ry][rx] <= 'z')
+            {
+                visited[cur.key | (keys[inp[ry][rx] - 'a'])][ry][rx] = 1;
+                q.push({rx, ry, cur.key | (keys[inp[ry][rx] - 'a'])});
             }
         }
     }
+    return result;
 }
+
 int main()
 {
     set_keys();
@@ -68,6 +90,9 @@ int main()
         for (int y = 0; y < H; y++)
             for (int x = 0; x < W; x++)
                 scanf(" %c", &inp[y][x]);
+        char default_key[30];
+        scanf("%s", default_key);
+        printf("%d\n", bfs(default_key));
     }
     return 0;
 }
