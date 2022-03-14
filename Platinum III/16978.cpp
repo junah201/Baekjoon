@@ -8,14 +8,14 @@ struct xy
     int i;
     int j;
     int idx;
-    int value;
+    ull value;
 };
 
 vector<pair<int, int>> one;
 vector<xy> two;
 
 ull inp[1000001], divsum[10020][101];
-int N, M, a, b, c;
+ull N, M, a, b, c;
 
 void queries_one(int idx)
 {
@@ -42,13 +42,13 @@ ull queries_two(int idx)
 
 int main()
 {
-    scanf("%d", &N);
+    scanf("%llu", &N);
     for (int i = 1; i <= N; i++)
     {
         scanf("%llu", &inp[i]);
         divsum[i / 100][i % 100 + 1] = divsum[i / 100][i % 100] + inp[i];
     }
-    scanf("%d", &M);
+    scanf("%llu", &M);
     for (int h = 0, cmd, a, b, c; h < M; h++)
     {
         scanf("%d", &cmd);
@@ -60,7 +60,7 @@ int main()
         else if (cmd == 2)
         {
             scanf("%d %d %d", &a, &b, &c);
-            two.push_back({a, b, c, h, -1});
+            two.push_back({a, b, c, h, 0});
         }
     }
     sort(two.begin(), two.end(), [](struct xy a, struct xy b)
@@ -95,7 +95,7 @@ int main()
          { return a.idx < b.idx; });
 
     for (int i = 0; i < two_size; i++)
-        printf("%d\n", two[i].value);
+        printf("%llu\n", two[i].value);
 
     return 0;
 }
