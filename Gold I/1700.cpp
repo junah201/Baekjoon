@@ -9,12 +9,23 @@ vector<deque<int>> cnt;
 
 deque<int> pq;
 
+/*
 bool cmp(int a, int b)
 {
     if (cnt[a].empty() != cnt[b].empty())
         return cnt[a].empty();
     if (cnt[a].empty())
         return false;
+    return cnt[a].front() > cnt[b].front();
+}
+*/
+
+bool cmp(int a, int b)
+{
+    if (cnt[a].empty() && cnt[b].empty())
+        return false;
+    if (cnt[a].empty() != cnt[b].empty())
+        return cnt[a].empty();
     return cnt[a].front() > cnt[b].front();
 }
 
