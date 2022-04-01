@@ -13,6 +13,6 @@ int main()
         if (a > b)
             printf("Yes\n");
         else
-            pritnf("No\n");
+            printf("No\n");
     }
 }
