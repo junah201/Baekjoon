@@ -43,6 +43,7 @@ int jewelry_to_int(char first, char second)
         return 6;
     if (first == 'C' && second == 'U')
         return 7;
+
     return 0;
 }
 
@@ -151,21 +152,6 @@ int main()
     cmdlen = strlen(cmd);
     for (int dx, dy; i < cmdlen; i++)
     {
-        // 디버그
-        /*
-#ifndef ONLINE_JUDGE
-        printf("[DEBUG] cmd[%d] = %c\n", i, cmd[i]);
-        printf("[DEBUG] player (%d, %d)\n", player.x, player.y);
-        printf("Passed Turns : %d\n", i + 1);
-        printf("LV : %d\n", player.level);
-        printf("HP : %d/%d\n", player.hp, 15 + player.level * 5);
-        printf("ATT : %d+%d\n", player.atk, player.tool_atk);
-        printf("DEF : %d+%d\n", player.def, player.tool_def);
-        printf("EXP : %d/%d\n", player.exp, player.level * 5);
-#endif
-*/
-
-        // printf("(%d, %d)\n", player.x, player.y);
         //  이동
         if (cmd[i] == 'R')
         {
@@ -268,21 +254,21 @@ int main()
                 // 몬스터가 죽었으면
                 if (info[dy][dx].hp <= 0)
                 {
-                    // 죽은 몬스터가 보스 이면
-                    if (info[dy][dx].input == 'M')
-                        end(i + 1, 1, dx, dy);
                     // 경험치 획득 - 장신구
                     if (player.jewelry[3] == 1)
-                        player.exp += floor(info[dy][dx].E * 1.2);
+                        player.exp += floor(info[dy][dx].E * 12 / 10);
                     else
                         player.exp += info[dy][dx].E;
+
                     // 장신구 HP 회복
                     if (player.jewelry[1] == 1)
                     {
                         player.hp += 3;
                         if (player.hp > 15 + player.level * 5)
                             player.hp = 15 + player.level * 5;
+                        else if
                     }
+
                     // 레벨업
                     if (player.exp >= player.level * 5)
                     {
@@ -292,6 +278,11 @@ int main()
                         player.def += 2;
                         player.hp = 15 + player.level * 5;
                     }
+
+                    // 죽은 몬스터가 보스 이면
+                    if (info[dy][dx].input == 'M')
+                        end(i + 1, 1, dx, dy);
+
                     // 몬스터 제거
                     info[dy][dx].input = '.';
                     break;
@@ -299,10 +290,10 @@ int main()
                 // 몬스터 후공
                 if (!(j == 0 && player.jewelry[6]))
                     player.hp -= max(1, (info[dy][dx].W) - (player.def + player.tool_def));
+
                 // 플레이어가 죽었으면
                 if (player.hp <= 0)
                 {
-                    // printf("==%d (%d, %d)  (%d, %d) : %d\n", player.jewelry[2], dx, dy, player.start_x, player.start_y, i);
                     // 장신구 RE 부활
                     if (player.jewelry[2])
                     {
