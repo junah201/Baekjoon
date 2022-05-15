@@ -34,9 +34,8 @@ int main()
 
     // 벌통이 왼쪽 끝
     for (int i = 1; i < N - 1; i++)
-    {
         ans = max(ans, get(N - 1, 0, i) + get(i, 0, N - 1));
-    }
+
     // 가운데
     for (int i = 1; i < N - 1; i++)
         ans = max(ans, get(0, i, N - 1) + get(N - 1, i, 0));
