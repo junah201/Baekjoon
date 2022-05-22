@@ -53,7 +53,7 @@ void end(int turn, int state, int x, int y)
     {
         for (int tx = 1; tx <= M; tx++)
         {
-            if (tx == player.x && ty == player.y && (state == 0 || state == 1) && info[ty][tx].input != '^')
+            if (tx == player.x && ty == player.y && state != 2)
                 printf("@");
             else
                 printf("%c", info[ty][tx].input);
@@ -62,7 +62,7 @@ void end(int turn, int state, int x, int y)
     }
     printf("Passed Turns : %d\n", turn);
     printf("LV : %d\n", player.level);
-    printf("HP : %d/%d\n", player.hp, 15 + player.level * 5);
+    printf("HP : %d/%d\n", max(0, player.hp), 15 + player.level * 5);
     printf("ATT : %d+%d\n", player.atk, player.tool_atk);
     printf("DEF : %d+%d\n", player.def, player.tool_def);
     printf("EXP : %d/%d\n", player.exp, player.level * 5);
@@ -81,6 +81,21 @@ void end(int turn, int state, int x, int y)
     else if (state == 0)
         printf("Press any key to continue.");
     exit(0);
+}
+
+void print_map()
+{
+    for (int y = 1; y <= N; y++)
+    {
+        for (int x = 1; x <= M; x++)
+        {
+            if (x == player.x && y == player.y)
+                printf("@");
+            else
+                printf("%c", info[y][x].input);
+        }
+        printf("\n");
+    }
 }
 
 int main()
@@ -152,6 +167,19 @@ int main()
     cmdlen = strlen(cmd);
     for (int dx, dy; i < cmdlen; i++)
     {
+#ifndef ONLINE_JUDGE
+        if (i != 0)
+            printf("cmd : %c\n", cmd[i - 1]);
+        printf("Passed Turns : %d\n", i);
+        printf("LV : %d\n", player.level);
+        printf("HP : %d/%d\n", player.hp, 15 + player.level * 5);
+        printf("ATT : %d+%d\n", player.atk, player.tool_atk);
+        printf("DEF : %d+%d\n", player.def, player.tool_def);
+        printf("EXP : %d/%d\n", player.exp, player.level * 5);
+        printf("JUL CNT : %d\n", player.jewelry_cnt);
+        printf("xy : (%d, %d)\n", player.x, player.y);
+        print_map();
+#endif
         //  이동
         if (cmd[i] == 'R')
         {
@@ -182,7 +210,7 @@ int main()
             player.y = dy;
         }
         // 벽
-        else if (info[dy][dx].input == '#')
+        else if (info[dy][dx].input == '#' || dx == 0 || dy == 0 || dx == M + 1 || dy == N + 1)
         {
             // 현재 칸이 가시 함정이면 추가 데미지
             if (info[player.y][player.x].input == '^')
@@ -211,6 +239,8 @@ int main()
         // 가시 함정
         if (info[dy][dx].input == '^')
         {
+            player.x = dx;
+            player.y = dy;
             // 장신구 - DX
             if (player.jewelry[5])
                 player.hp -= 1;
@@ -230,8 +260,6 @@ int main()
                 else
                     end(i + 1, 2, dx, dy);
             }
-            player.x = dx;
-            player.y = dy;
         }
         // 몬스터
         else if (info[dy][dx].input == '&' || info[dy][dx].input == 'M')
@@ -243,9 +271,32 @@ int main()
                 player.hp = 15 + player.level * 5;
             for (int j = 0;; j++)
             {
+#ifndef ONLINE_JUDGE
+                printf("\n");
+                printf("==player==\n");
+                printf("HP : %d/%d\n", player.hp, 15 + player.level * 5);
+                printf("ATT : %d+%d\n", player.atk, player.tool_atk);
+                printf("DEF : %d+%d\n", player.def, player.tool_def);
+                printf("==monster==\n");
+                printf("HP : %d/%d\n", info[dy][dx].hp, info[dy][dx].H);
+                printf("ATT : %d\n", info[dy][dx].W);
+                printf("DEF : %d\n", info[dy][dx].A);
+                printf("\n");
+#endif
+
+#ifndef ONLINE_JUDGE
+                if (j == 0 && player.jewelry[3] && player.jewelry[5])
+                    printf("player : %d\n", max(1, 3 * (player.atk + player.tool_atk) - info[dy][dx].A));
+                else if (j == 0 && player.jewelry[3])
+                    printf("player : %d\n", max(1, 2 * (player.atk + player.tool_atk) - info[dy][dx].A));
+                else
+                    printf("player : %d\n", max(1, (player.atk + player.tool_atk) - info[dy][dx].A));
+                printf("==%d %d  ==\n", 2 * (player.atk + player.tool_atk) - info[dy][dx].A, info[dy][dx].A);
+#endif
                 // 플레이어 선공 - 장신구
                 if (j == 0 && player.jewelry[3] && player.jewelry[5])
-                    info[dy][dx].hp -= max(1, 3 * (player.atk + player.tool_atk) - info[dy][dx].A);
+                    info[dy][dx]
+                        .hp -= max(1, 3 * (player.atk + player.tool_atk) - info[dy][dx].A);
                 else if (j == 0 && player.jewelry[3])
                     info[dy][dx].hp -= max(1, 2 * (player.atk + player.tool_atk) - info[dy][dx].A);
                 else
@@ -254,20 +305,23 @@ int main()
                 // 몬스터가 죽었으면
                 if (info[dy][dx].hp <= 0)
                 {
+
+#ifndef ONLINE_JUDGE
+                    printf("\n== EXP ==\n");
+                    if (player.jewelry[4])
+                        printf("%d + %d = %d\n\n", player.exp, info[dy][dx].E * 12 / 10, player.exp + info[dy][dx].E * 12 / 10);
+                    else
+                        printf("%d + %d = %d\n\n", player.exp, info[dy][dx].E, player.exp + info[dy][dx].E);
+#endif
                     // 경험치 획득 - 장신구
-                    if (player.jewelry[3] == 1)
-                        player.exp += floor(info[dy][dx].E * 12 / 10);
+                    if (player.jewelry[4])
+                        player.exp += info[dy][dx].E * 12 / 10;
                     else
                         player.exp += info[dy][dx].E;
 
                     // 장신구 HP 회복
-                    if (player.jewelry[1] == 1)
-                    {
-                        player.hp += 3;
-                        if (player.hp > 15 + player.level * 5)
-                            player.hp = 15 + player.level * 5;
-                        else if
-                    }
+                    if (player.jewelry[1])
+                        player.hp = min(player.hp + 3, 15 + player.level * 5);
 
                     // 레벨업
                     if (player.exp >= player.level * 5)
@@ -282,14 +336,21 @@ int main()
                     // 죽은 몬스터가 보스 이면
                     if (info[dy][dx].input == 'M')
                         end(i + 1, 1, dx, dy);
-
                     // 몬스터 제거
                     info[dy][dx].input = '.';
                     break;
                 }
+
                 // 몬스터 후공
-                if (!(j == 0 && player.jewelry[6]))
-                    player.hp -= max(1, (info[dy][dx].W) - (player.def + player.tool_def));
+#ifndef ONLINE_JUDGE
+                if (j == 0 && player.jewelry[6])
+                    printf("Monster : 0\n");
+                else
+                    printf("Monster : %d\n", max(1, (info[dy][dx].W) - (player.def + player.tool_def)));
+#endif
+                if (j == 0 && player.jewelry[6])
+                    continue;
+                player.hp -= max(1, (info[dy][dx].W) - (player.def + player.tool_def));
 
                 // 플레이어가 죽었으면
                 if (player.hp <= 0)
@@ -317,6 +378,15 @@ int main()
             player.y = dy;
             info[dy][dx].input = '.';
 
+#ifndef ONLINE_JUDGE
+            // 무기
+            if (info[dy][dx].type == 'W')
+                printf("==tool atk : %d\n", info[dy][dx].atk);
+            // 방어구
+            else if (info[dy][dx].type == 'A')
+                printf("==tool def : %d\n", info[dy][dx].def);
+#endif
+
             // 무기
             if (info[dy][dx].type == 'W')
                 player.tool_atk = info[dy][dx].atk;
@@ -328,6 +398,10 @@ int main()
             {
                 if (player.jewelry_cnt == 4)
                     continue;
+
+#ifndef ONLINE_JUDGE
+                printf("== add jewelry : %s\n", info[dy][dx].skill);
+#endif
 
                 int jewelry_id = jewelry_to_int(info[dy][dx].skill[0], info[dy][dx].skill[1]);
 
