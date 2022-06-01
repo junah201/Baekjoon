@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int ans = INT_MAX;
-bool chk[10];
-bool orgin_inp[10][10];
-bool inp[10][10];
+int N, ans = INT_MAX;
+bool chk[18];
+bool orgin_inp[18][18];
+bool inp[18][18];
 
 int dx[5] = {1, -1, 0, 0, 0};
 int dy[5] = {0, 0, 0, 1, -1};
@@ -16,7 +16,7 @@ void change(int x, int y)
         int rx = x + dx[i];
         int ry = y + dy[i];
 
-        if (rx < 0 || rx >= 10 || ry < 0 || ry >= 10)
+        if (rx < 0 || rx >= N || ry < 0 || ry >= N)
             continue;
 
         inp[ry][rx] = !inp[ry][rx];
@@ -25,27 +25,27 @@ void change(int x, int y)
 
 void dfs(int idx)
 {
-    if (idx == 10)
+    if (idx == N)
     {
-        copy(&orgin_inp[0][0], &orgin_inp[10][10], &inp[0][0]);
+        copy(&orgin_inp[0][0], &orgin_inp[N][N], &inp[0][0]);
         int cnt = 0;
-        for (int x = 0; x < 10; x++)
+        for (int x = 0; x < N; x++)
             if (chk[x])
             {
                 cnt++;
                 change(x, 0);
             }
 
-        for (int y = 1; y < 10; y++)
-            for (int x = 0; x < 10; x++)
+        for (int y = 1; y < N; y++)
+            for (int x = 0; x < N; x++)
                 if (inp[y - 1][x])
                 {
                     cnt++;
                     change(x, y);
                 }
 
-        for (int x = 0; x < 10; x++)
-            if (inp[9][x])
+        for (int x = 0; x < N; x++)
+            if (inp[N - 1][x])
                 return;
 
         ans = min(ans, cnt);
@@ -59,13 +59,10 @@ void dfs(int idx)
 
 int main()
 {
-    for (int y = 0; y < 10; y++)
-        for (int x = 0; x < 10; x++)
-        {
-            char tmp;
-            scanf(" %1c", &tmp);
-            orgin_inp[y][x] = (tmp == 'O');
-        }
+    scanf("%d", &N);
+    for (int y = 0; y < N; y++)
+        for (int x = 0; x < N; x++)
+            scanf("%1d", &orgin_inp[y][x]);
 
     dfs(0);
 
