@@ -27,7 +27,19 @@ struct tinfo
     char skill[5];
 } info[102][102];
 
-int jewelry_to_int(char first, char second)
+enum jewelry
+{
+    HR,
+    RE,
+    CO,
+    EX,
+    DX,
+    HU,
+    CU
+}
+
+int
+jewelry_to_int(char first, char second)
 {
     if (first == 'H' && second == 'R')
         return 1;
@@ -305,14 +317,6 @@ int main()
                 // 몬스터가 죽었으면
                 if (info[dy][dx].hp <= 0)
                 {
-
-#ifndef ONLINE_JUDGE
-                    printf("\n== EXP ==\n");
-                    if (player.jewelry[4])
-                        printf("%d + %d = %d\n\n", player.exp, info[dy][dx].E * 12 / 10, player.exp + info[dy][dx].E * 12 / 10);
-                    else
-                        printf("%d + %d = %d\n\n", player.exp, info[dy][dx].E, player.exp + info[dy][dx].E);
-#endif
                     // 경험치 획득 - 장신구
                     if (player.jewelry[4])
                         player.exp += info[dy][dx].E * 12 / 10;
