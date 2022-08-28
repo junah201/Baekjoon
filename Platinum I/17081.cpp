@@ -27,19 +27,7 @@ struct tinfo
     char skill[5];
 } info[102][102];
 
-enum jewelry
-{
-    HR,
-    RE,
-    CO,
-    EX,
-    DX,
-    HU,
-    CU
-}
-
-int
-jewelry_to_int(char first, char second)
+int jewelry_to_int(char first, char second)
 {
     if (first == 'H' && second == 'R')
         return 1;
