@@ -1,7 +1,17 @@
+/* Code By [ junah ]
+GitHub : [ junah201 ] */
+
 #include <bits/stdc++.h>
 using namespace std;
 
-int T, N, is_end;
+void dprintf(const char *__format, ...)
+{
+#ifndef ONLINE_JUDGE
+    printf(__format);
+#endif
+}
+
+int T, N, is_end, ans;
 vector<int> inp_count;
 vector<char> inp_mine;
 
@@ -23,22 +33,36 @@ int get_mine_count(int idx)
 
 void dfs(int idx)
 {
-    if (idx > 7)
-        return;
-
+    // TODO : remove
     if (is_end)
         return;
 
-    printf("[%d] %d %d\n", idx, N, idx == N);
+    dprintf("\n[%d]\n", idx);
+    for (auto i : inp_count)
+    {
+        dprintf("%d", i);
+    }
+    dprintf("\n");
     for (auto i : inp_mine)
     {
-        printf("%c", i);
+        dprintf("%c", i);
     }
-    printf("\n");
+    dprintf("\n");
 
     if (idx == N)
     {
-        printf("endend\n");
+        if (get_mine_count(idx - 1) != inp_count[idx - 1])
+        {
+            dprintf("[%d] 끝까지 왔지만 불가능\n", idx);
+            return;
+        }
+        ans = 0;
+        for (auto i : inp_mine)
+        {
+            if (i == '*' || i == '&')
+                ans++;
+        }
+        dprintf("[%d] 끝 !!\n", idx);
         is_end = true;
         return;
     }
@@ -46,7 +70,7 @@ void dfs(int idx)
     // 아래 칸이 지뢰 칸이면 스킵
     if (inp_mine[idx] == '*')
     {
-        printf("s\n");
+        dprintf("[%d] 아래칸이 이미 지뢰라서 스킵\n", idx);
         dfs(idx + 1);
         return;
     }
@@ -54,33 +78,41 @@ void dfs(int idx)
     // 예외값 : idx == 0
     if (idx == 0)
     {
-        printf("01\n");
+        if (inp_count[idx] == 2)
+        {
+            dprintf("[%d] 예외값 2 채우고\n", idx);
+            inp_mine[idx] = '*';
+            inp_mine[idx + 1] = '*';
+            dfs(idx + 1);
+            return;
+        }
+
+        dprintf("[%d] 예외값 0 비우고\n", idx);
         dfs(idx + 1);
         if (inp_count[idx] != 0)
         {
-            printf("02\n");
+            dprintf("[%d] 예외값 0 채우고\n", idx);
             inp_mine[idx] = '&';
             dfs(idx + 1);
+            inp_mine[idx] = '#';
         }
         return;
     }
 
-    printf("== %d %d %d ==\n\n", get_mine_count(idx - 1), inp_count[idx - 1], get_mine_count(idx - 1) == inp_count[idx - 1] - 1);
-
     // 전칸 때문에 무조건 이 칸이 차야하는 상황
     if (get_mine_count(idx - 1) == inp_count[idx - 1] - 1)
     {
-        printf("only\n");
+        dprintf("[%d] 전칸때문에 무조건 차야함\n", idx);
         inp_mine[idx] = '&';
         dfs(idx + 1);
+        inp_mine[idx] = '#';
         return;
     }
 
     // 전칸 때문에 이 칸이 무조건 비어야하는 상황
     if (get_mine_count(idx - 1) == inp_count[idx - 1])
     {
-        printf("only e\n");
-        inp_mine[idx] = '&';
+        dprintf("[%d] 전칸 때문에 무조건 비어야함\n", idx);
         dfs(idx + 1);
         return;
     }
@@ -91,15 +123,16 @@ void dfs(int idx)
         tmp += 1;
 
     // 그냥 보내고
+    dprintf("[%d] 그냥 보내고\n", idx);
     dfs(idx + 1);
 
     if (tmp < inp_count[idx])
     {
-        printf("t\n");
-
+        dprintf("[%d] 채워서 보내고\n", idx);
         // 지뢰로 바꿔서 보내고
         inp_mine[idx] = '&';
         dfs(idx + 1);
+        inp_mine[idx] = '#';
     }
 }
 
@@ -127,20 +160,22 @@ int main()
         }
 
         dfs(0);
-
-        int ans = 0;
-        for (auto i : inp_mine)
-        {
-            if (i == '*' || i == '&')
-                ans++;
-        }
         printf("%d\n", ans);
-        return 0;
     }
+    return 0;
 }
 
 /*
 11122
 ####*
 #&#&*
+11222
+
+23321
+#####
+&&&&#
+
+11122
+####*
+&##&*
 */
