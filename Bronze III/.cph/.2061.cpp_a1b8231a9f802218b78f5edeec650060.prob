@@ -1,0 +1,1 @@
+{"name":"Local: 2061","url":"/mnt/d/3.programming/0.Github/Baekjoon/Bronze III/2061.cpp","tests":[{"id":1648189374897,"input":"143 11","output":"GOOD"},{"id":1648189415628,"input":"143 12","output":"BAD 11"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/mnt/d/3.programming/0.Github/Baekjoon/Bronze III/2061.cpp","group":"local","local":true}

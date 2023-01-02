@@ -1,0 +1,1 @@
+{"name":"Local: 17298","url":"/mnt/d/3.programming/0.Github/Baekjoon/Gold IV/17298.cpp","tests":[{"id":1645457790359,"input":"4\n3 5 2 7","output":"5 7 7 -1"},{"id":1645457793690,"input":"4\n9 5 4 8","output":"-1 8 8 -1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/mnt/d/3.programming/0.Github/Baekjoon/Gold IV/17298.cpp","group":"local","local":true}

@@ -1,0 +1,1 @@
+{"name":"Local: 1655","url":"/mnt/d/3.programming/0.Github/Baekjoon/Gold II/1655.cpp","tests":[{"id":1645780321738,"input":"7\n1\n5\n2\n10\n-99\n7\n5","output":"1\n1\n2\n2\n2\n2\n5"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/mnt/d/3.programming/0.Github/Baekjoon/Gold II/1655.cpp","group":"local","local":true}
