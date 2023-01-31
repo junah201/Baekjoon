@@ -3,6 +3,7 @@ GitHub : [ junah201 ] */
 
 #include <bits/stdc++.h>
 using namespace std;
+#define ll long long int
 
 int N, Q;
 stack<tuple<int, int, int>> query;

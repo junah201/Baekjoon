@@ -4,69 +4,76 @@ GitHub : [ junah201 ] */
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long int
-#define all(v) (v).begin(), (v).end()
-
-void dprintf(const char *__format, ...)
-{
-#ifndef ONLINE_JUDGE
-    printf(__format);
-#endif
-}
 
 int A, B, K, total;
-set<int> not_visited;
-int visited[200002];
 
-int bfs()
+int p[200009];
+
+int fin(int x)
 {
-    // 0 : 1
-    queue<tuple<int, int, int>> q;
+    if (p[x] == x)
+        return x;
+    return p[x] = fin(p[x]);
+}
+
+void marge(int a, int b)
+{
+    int tmp_a = fin(a);
+    int tmp_b = fin(b);
+
+    a = min(tmp_a, tmp_b);
+    b = max(tmp_a, tmp_b);
+
+    if (a == b)
+        return;
+
+    p[a] = b;
+}
+
+ll bfs()
+{
+    queue<tuple<int, int, ll>> q;
     q.emplace(A, B, 1);
-    not_visited.erase(A);
 
     while (!q.empty())
     {
         auto [zero, one, idx] = q.front();
         q.pop();
 
-        // printf("%d\n", not_visited.size());
-        // dprintf("(%d %d) %d\n", zero, one, idx);
+        int tmp_start = zero + K - 2 * max(0, K - one);
+        int tmp_end = zero + K - 2 * min(K, zero);
 
-        vector<int> to_erase;
+        int start = min(tmp_start, tmp_end);
+        int end = max(tmp_start, tmp_end);
+        start = max(0, start);
 
-        for (const auto &i : not_visited)
+        if (end > total)
         {
-            int new_zero = i;
-            // new_zero - zero - K = -2 * i
+            if (end % 2 == total % 2)
+                end = total;
+            else
+                end = total - 1;
+        }
 
-            // d : one을 몇개 뒤집었는지
-            int d = -1 * (new_zero - zero - K);
-            // d == 2 * i
+        // printf("%d   ~    %d\n", start, end);
 
-            if (d % 2 == 1)
-                continue;
-
-            d = d / 2;
-            // d == i
-
-            // 만약 이동 불가능하면
-            if (d < max(0, K - one) || d > min(K, zero))
-                continue;
-
-            int new_one = one + d - (K - d);
-
-            // 종료 조건
+        for (int new_zero = start; new_zero <= end; new_zero += 2)
+        {
             if (new_zero == 0)
                 return idx;
 
-            to_erase.emplace_back(new_zero);
-            q.emplace(new_zero, total - new_zero, idx + 1);
-        }
+            new_zero = fin(new_zero);
 
-        // 지워주기
-        for (auto i : to_erase)
-        {
-            not_visited.erase(i);
+            if (new_zero > end)
+                break;
+
+            int new_one = total - new_zero;
+
+            if (new_zero == 0)
+                return idx;
+
+            q.emplace(new_zero, new_one, idx + 1);
+            marge(new_zero, end + 2);
         }
     }
 
@@ -94,33 +101,24 @@ int main()
         printf("-1");
         return 0;
     }
-    // A가 K로 나누어지면 묷이 정답
+    // A가 K로 나누어떨어지면 묷이 정답
     if (A % K == 0)
     {
         printf("%d", A / K);
         return 0;
     }
-    // not_visited 에 값 넣기
-    for (int i = 0; i <= A + B; i++)
+    // 전체 개수보다 K가 크면 무조건 불가능
+    if (A + B <= K)
     {
-        not_visited.insert(i);
+        printf("-1");
+        return 0;
     }
+
+    for (int i = 0; i <= A + B + 9; i++)
+        p[i] = i;
 
     total = A + B;
 
-    printf("%d", bfs());
+    printf("%lld", bfs());
     return 0;
 }
-
-/*
-0이 A개
-1이 B개
-
-뒤집은 횟수 N
-
-N보다 작은 홀수 A개와 N보다 작은 짝수 B개의 합이 K * N이 되면 가능
-각 N에 대해서 O(1) 안에 가능한지 판별한다고 할 때
-
-
-
-*/
