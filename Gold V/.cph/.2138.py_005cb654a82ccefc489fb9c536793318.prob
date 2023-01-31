@@ -1,0 +1,1 @@
+{"name":"Local: 2138","url":"d:\\3.programming\\0.Github\\Baekjoon\\Gold V\\2138.py","tests":[{"id":1675189628900,"input":"3\n000\n010","output":"3"},{"id":1675190703733,"input":"8\n00000000\n11011000","output":"2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\3.programming\\0.Github\\Baekjoon\\Gold V\\2138.py","group":"local","local":true}
