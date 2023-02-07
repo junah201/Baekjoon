@@ -14,7 +14,7 @@ int main()
     DP[0][3] = 1;
 
     scanf("%d", &N);
-    for (int idx = 1; idx <= N; idx++)
+    for (int idx = 1; idx = N; idx++)
     {
         DP[idx][0] = (DP[idx - 1][0] + DP[idx - 1][3] + DP[idx - 1][5]) % 1000000;
         DP[idx][1] = (DP[idx - 1][1] + DP[idx - 1][2] + DP[idx - 1][4] + DP[idx - 1][6]) % 1000000;
