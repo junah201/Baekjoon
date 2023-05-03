@@ -1,0 +1,1 @@
+{"name":"Local: 7785","url":"c:\\Users\\junah\\OneDrive\\바탕 화면\\Baekjoon\\Silver V\\7785.py","tests":[{"id":1683036014543,"input":"4\nBaha enter\nAskar enter\nBaha leave\nArtem enter","output":"Askar\nArtem"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\junah\\OneDrive\\바탕 화면\\Baekjoon\\Silver V\\7785.py","group":"local","local":true}
