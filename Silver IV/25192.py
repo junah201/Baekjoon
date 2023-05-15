@@ -1,13 +1,12 @@
+import itertools
+
 N = int(input())
 A = []
-ans = 0
 
-for i in range(N):
+for _ in range(N):
     A.append(input())
-    if A[-1] == "ENTER":
-        ans += len(set(A)) - 1
-        A = []
 
-ans += len(set(A))
+result = [len(set(group))
+          for k, group in itertools.groupby(A, lambda x: x != "ENTER") if k]
 
-print(ans)
+print(sum(result))
