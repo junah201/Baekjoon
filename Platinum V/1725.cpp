@@ -15,35 +15,36 @@ void dprintf(const char *__format, ...)
 }
 
 int N, ans;
-stack<int> s;
-int rest_length, min_value;
-int A[100002];
+stack<pair<int, int>> s;
+int A[100005];
 
 signed main()
 {
     scanf("%lld", &N);
-    for (int i = 0; i < N; i++)
+    for (int i = 1; i <= N; i++)
     {
         scanf("%lld", &A[i]);
     }
 
-    s.emplace(A[0]);
+    s.emplace(0, 0);
 
-    for (int i = 1; i < N; i++)
+    for (int i = 1; i <= N + 1; i++)
     {
-        if (s.top() < A[i])
+        while (s.top().second > A[i])
         {
-            ans = max(ans, ((long long)s.size() + 1) * min_value);
-            while (!s.empty())
-            {
+            auto [oidx, ovalue] = s.top();
+            s.pop();
+            while (s.top().second == ovalue)
                 s.pop();
-            }
+
+            auto [tidx, tvalue] = s.top();
+            dprintf("i : %lld, oidx : %lld, ovalue : %lld\n", i, oidx, ovalue);
+            dprintf("tidx : %lld, tvalue : %lld\n", s.top().first, s.top().second);
+            dprintf("%lld %lld : %lld %lld\n", (i - 1 - s.top().first) * ovalue, (i - oidx) * ovalue, oidx, ovalue);
+            // tmp_area = max((i - 1 - stack[-1][0]) * tmp_list[1], (i - tmp_list[0]) * tmp_list[1])
+            ans = max(ans, max((i - 1 - s.top().first) * ovalue, (i - oidx) * ovalue));
         }
-        min_value = A[i];
-
-        s.emplace(A[i]);
-
-        ans = max(ans, (long long)s.size() * min_value);
+        s.emplace(i, A[i]);
     }
 
     printf("%lld", ans);
