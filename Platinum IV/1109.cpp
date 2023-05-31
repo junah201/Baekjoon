@@ -171,15 +171,5 @@ int main()
         printf("%d ", height[i]);
     }
 
-    printf("\n");
-    for (int y = 0; y < Y; y++)
-    {
-        for (int x = 0; x < X; x++)
-        {
-            printf("%3d ", color[y][x]);
-        }
-        printf("\n");
-    }
-
     return 0;
 }
