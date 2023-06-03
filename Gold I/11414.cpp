@@ -3,43 +3,52 @@ GitHub : [ junah201 ] */
 
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long int
-#define all(v) (v).begin(), (v).end()
+#define int long long int
 
-int A, B, a, b, ans, ans2, tmp;
+int A, B, a, b, ans, tmp, val = LONG_LONG_MAX;
 
-int main()
+signed main()
 {
     scanf("%d %d", &a, &b);
 
     A = max(a, b);
     B = min(a, b);
 
-    if (A - B > B)
+    if (A == B)
     {
-        printf("%d", A - B - B);
+        printf("1");
         return 0;
     }
 
-    for (int i = B; i > 0; i--)
+    vector<int> divisors;
+
+    int car = A - B;
+    int i = 1;
+    for (; i * i <= car; i++)
     {
+        if (car % i == 0)
+        {
+            divisors.emplace_back(i);
+            divisors.emplace_back(car / i);
+        }
     }
 
-    printf("%d", ans2);
+    sort(divisors.begin(), divisors.end());
+
+    for (auto d : divisors)
+    {
+        int r = A % d;
+        r = d - r;
+        int AA = A + r, BB = B + r;
+        int tmp = AA * (BB / d);
+        if (tmp < val)
+        {
+            val = tmp;
+            ans = r;
+        }
+    }
+
+    printf("%lld", ans);
 
     return 0;
 }
-
-/*
-lcm(A + N, B + N);
-lcm(A - B, B + N);
-
-A = 10   B = 4
-
-lcm(6, 4 + N)
-
-A = 10   B = 6
-
-lcm(4, 6 + N)
-
-*/

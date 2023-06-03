@@ -34,7 +34,6 @@ signed main()
 
     for (int i = 1;; i++)
     {
-        dprintf("%lld : %lld + %lld\n", i, DP[i], DP[i - 1]);
         DP[i] = DP[i] + DP[i - 1];
         if (DP[i] > N)
         {
@@ -45,7 +44,7 @@ signed main()
             DP2[DP[i]] = 1;
             break;
         }
-        dprintf("d %lld : %lld\n", i, DP[i]);
+        dprintf("%lld : %lld\n", i, DP[i]);
         DP2[DP[i]] = 1;
     }
     dprintf("\n");

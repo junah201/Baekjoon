@@ -27,7 +27,8 @@ int bishop_dy[4] = {1, -1, 1, -1};
 int look_dx[4] = {1, -1, 0, 0};
 int look_dy[4] = {0, 0, 1, -1};
 
-queue<tuple<int, int, int, int, int>> q;
+int ans1 = INT_MAX, ans2 = INT_MAX;
+queue<tuple<int, int, int, int, int, int>> q;
 int inp[12][12];
 int max_idx = 1;
 int visited[102][12][12][3];
@@ -52,19 +53,19 @@ signed main()
 {
     scanf("%lld", &N);
 
-    // for (int i = 0; i < 102; i++)
-    // {
-    //     for (int y = 0; y < N; y++)
-    //     {
-    //         for (int x = 0; x < N; x++)
-    //         {
-    //             for (int k = 0; k < 3; k++)
-    //             {
-    //                 visited[i][y][x][k] = INT_MAX;
-    //             }
-    //         }
-    //     }
-    // }
+    for (int i = 0; i < 102; i++)
+    {
+        for (int y = 0; y < N; y++)
+        {
+            for (int x = 0; x < N; x++)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    visited[i][y][x][k] = INT_MAX;
+                }
+            }
+        }
+    }
 
     for (int y = 0; y < N; y++)
     {
@@ -75,7 +76,7 @@ signed main()
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    q.emplace(x, y, i, 0, 1);
+                    q.emplace(x, y, i, 0, 1, 0);
                     visited[1][y][x][i] = 0;
                 }
             }
@@ -84,7 +85,7 @@ signed main()
 
     while (!q.empty())
     {
-        auto [x, y, type, time, idx] = q.front();
+        auto [x, y, type, time, idx, change_cnt] = q.front();
         q.pop();
 
         // if (idx < max_idx)
@@ -100,13 +101,13 @@ signed main()
             if (type == i)
                 continue;
 
-            if (visited[idx][y][x][i])
+            if (visited[idx][y][x][i] <= change_cnt + 1)
                 continue;
 
             dprintf("change (%lld %lld) %lld\n", x, y, i);
 
-            visited[idx][y][x][i] = true;
-            q.emplace(x, y, i, time + 1, idx);
+            visited[idx][y][x][i] = change_cnt + 1;
+            q.emplace(x, y, i, time + 1, idx, change_cnt + 1);
         }
 
         vector<pair<int, int>> new_xy(0);
@@ -122,7 +123,7 @@ signed main()
                 if (nx < 0 || nx >= N || ny < 0 || ny >= N)
                     continue;
 
-                if (visited[idx][ny][nx][type])
+                if (visited[idx][ny][nx][type] <= change_cnt)
                     continue;
 
                 new_xy.emplace_back(nx, ny);
@@ -141,7 +142,7 @@ signed main()
                     if (nx < 0 || nx >= N || ny < 0 || ny >= N)
                         break;
 
-                    if (visited[idx][ny][nx][type])
+                    if (visited[idx][ny][nx][type] <= change_cnt)
                         continue;
 
                     new_xy.emplace_back(nx, ny);
@@ -161,7 +162,7 @@ signed main()
                     if (nx < 0 || nx >= N || ny < 0 || ny >= N)
                         break;
 
-                    if (visited[idx][ny][nx][type])
+                    if (visited[idx][ny][nx][type] <= change_cnt)
                         continue;
 
                     new_xy.emplace_back(nx, ny);
@@ -176,7 +177,7 @@ signed main()
             if (nx < 0 || nx >= N || ny < 0 || ny >= N)
                 continue;
 
-            visited[idx][ny][nx][type] = true;
+            visited[idx][ny][nx][type] = change_cnt;
 
             dprintf("next (%lld %lld)\n", nx, ny);
 
@@ -184,16 +185,24 @@ signed main()
             {
                 if (inp[ny][nx] == N * N)
                 {
-                    printf("%lld", time + 1);
-                    return 0;
+                    if (time + 1 > ans1)
+                        continue;
+                    else if (time + 1 == ans1)
+                        ans2 = min(ans2, change_cnt);
+                    else
+                    {
+                        ans1 = min(ans1, time + 1);
+                        ans2 = change_cnt;
+                    }
+                    continue;
                 }
 
-                visited[idx + 1][ny][nx][type] = true;
+                visited[idx + 1][ny][nx][type] = change_cnt;
                 max_idx = max(max_idx, inp[ny][nx]);
-                q.emplace(nx, ny, type, time + 1, idx + 1);
+                q.emplace(nx, ny, type, time + 1, idx + 1, change_cnt);
             }
             else
-                q.emplace(nx, ny, type, time + 1, idx);
+                q.emplace(nx, ny, type, time + 1, idx, change_cnt);
         }
     }
 
@@ -201,6 +210,7 @@ signed main()
     print_visited(2, 1);
     print_visited(2, 2);
 
+    printf("%lld %lld", ans1, ans2);
     dprintf("end %lld", max_idx);
 
     return 0;
