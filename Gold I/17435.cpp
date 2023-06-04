@@ -24,8 +24,10 @@ signed main()
     K = std::ceil(std::log2(500001));
 
     bits.resize(K + 1);
-    for (int i = 0; i <= K; i++)
-        bits[i] = 1 << i;
+    for (int i = 1; i <= K; i++)
+    {
+        bits[i] = 1 << (i - 1);
+    }
 
     graph.clear();
     graph.resize(N + 1, vector<int>(K + 1, -1));
@@ -33,7 +35,7 @@ signed main()
     for (int i = 1; i <= N; i++)
     {
         int u;
-        scanf("%lld %lld", &u);
+        scanf("%lld", &u);
         graph[i][1] = u;
     }
 
@@ -45,7 +47,6 @@ signed main()
             graph[i][jump] = graph[prev1][jump - 1];
         }
     }
-
     scanf("%lld", &Q);
 
     while (Q--)
@@ -53,12 +54,15 @@ signed main()
         int n, x;
         scanf("%lld %lld", &n, &x);
 
-        while (x)
+        for (int jump = K; jump >= 1 && n != 0; jump--)
         {
-            for (int jump = K; jump >= 1; jump--)
+            if (n >= bits[jump])
             {
+                n -= bits[jump];
+                x = graph[x][jump];
             }
         }
+        printf("%lld\n", x);
     }
 
     return 0;
