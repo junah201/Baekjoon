@@ -1,0 +1,1 @@
+{"name":"Local: 2437","url":"d:\\개발\\Baekjoon\\Gold II\\2437.cpp","tests":[{"id":1686284484060,"input":"7\n3 1 6 2 7 30 1","output":"21"},{"id":1686286005602,"input":"1\n1","output":"2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\개발\\Baekjoon\\Gold II\\2437.cpp","group":"local","local":true}
