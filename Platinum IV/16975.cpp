@@ -3,6 +3,22 @@ GitHub : [ junah201 ] */
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long int
+<<<<<<< HEAD
+=======
+int INF = LONG_LONG_MAX;
+
+void dprintf(const char *__format, ...)
+{
+#ifndef ONLINE_JUDGE
+    va_list args;
+    va_start(args, __format);
+    vprintf(__format, args);
+    va_end(args);
+#endif
+}
+
+int T;
+>>>>>>> b09904eba74ac20d5ef9469c843e10f5940ebf93
 
 void init(vector<int> &a, vector<int> &tree, int node, int start, int end)
 {
@@ -64,6 +80,13 @@ signed main()
     for (int i = 0; i < N; i++)
         scanf("%lld", &a[i]);
 
+<<<<<<< HEAD
+=======
+    for (int i = 0; i < N; i++)
+    {
+        dprintf("%lld : %lld\n", i + 1, query(tree, 1, 0, N - 1, 0, i));
+    }
+>>>>>>> b09904eba74ac20d5ef9469c843e10f5940ebf93
     scanf("%lld", &Q);
     while (Q--)
     {
@@ -74,14 +97,29 @@ signed main()
         {
             int i, j, k;
             scanf("%lld %lld %lld", &i, &j, &k);
+<<<<<<< HEAD
             update(a, tree, 1, 0, N - 1, i - 1, k);
             update(a, tree, 1, 0, N - 1, j, -k);
+=======
+            dprintf("== %lld %lld %lld ==\n", i, j, k);
+            update(a, tree, 1, 0, N - 1, i - 1, k);
+            update(a, tree, 1, 0, N - 1, j, -k);
+            for (int i = 0; i < N; i++)
+            {
+                dprintf("%lld : %lld\n", i + 1, query(tree, 1, 0, N - 1, 0, i));
+            }
+>>>>>>> b09904eba74ac20d5ef9469c843e10f5940ebf93
         }
         else
         {
             int x;
             scanf("%lld", &x);
+<<<<<<< HEAD
             printf("%lld\n", a[x - 1] + query(tree, 1, 0, N - 1, 0, x - 1));
+=======
+            int result1 = query(tree, 1, 0, N - 1, 0, x - 1);
+            printf("%lld\n", a[x - 1] + result1);
+>>>>>>> b09904eba74ac20d5ef9469c843e10f5940ebf93
         }
     }
 
