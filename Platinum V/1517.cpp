@@ -16,18 +16,9 @@ void dprintf(const char *__format, ...)
 }
 
 int N;
-int A(10, 0);
 
 signed main()
 {
     scanf("%lld", &N);
-
-    // 1
-    // 1의 자리에서 10번 마다 1번
-
-    // 10의 자리에서 100번 마다 10번
-
-    // 100의 자리에서 1000번 마다 100번
-
     return 0;
 }
