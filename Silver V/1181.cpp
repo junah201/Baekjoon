@@ -1,30 +1,29 @@
-//1181  단어 정렬
-
-#include <stdio.h>
-#include <string>
-#include <algorithm>
-
+/* Code By [ junah ]
+GitHub : [ junah201 ] */
+#include <bits/stdc++.h>
 using namespace std;
+#define int long long int
 
-int N;
-string str[20000];
-char ward[51];
+signed main()
+{
+    int N;
+    scanf("%lld", &N);
+    char A[20001][51];
+    for (int i = 0; i < N; i++)
+        scanf("%s", A[i]);
 
-bool cmp(string a, string b) {
-    if(a.size()==b.size()) return a<b;
-    else return a.size()<b.size();
-    return false;
-}
+    sort(A, A + N, [](const char *a, const char *b)
+         {
+    if (strlen(a) == strlen(b))
+        return strcmp(a, b) < 0;
+    else
+        return strlen(a) <strlen(b); });
 
-int main() {
-    scanf("%d",&N);
-    for(int i=0;i<N;i++) {
-        scanf("%s",ward);
-        str[i] = ward;
+    for (int i = 0; i < N; i++)
+    {
+        if (strcmp(A[i], A[i + 1]) == 0)
+            printf("%s\n", A[i]);
     }
-    sort(str, str+N, cmp);
-    for(int i=0;i<N;i++) {
-        if(str[i]!=str[i+1]) printf("%s\n",str[i].c_str());
-    }
+
     return 0;
 }
