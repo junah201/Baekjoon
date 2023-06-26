@@ -4,9 +4,10 @@ GitHub : [ junah201 ] */
 using namespace std;
 #define int long long int
 #define INF LONG_LONG_MAX
+#define SIZE 1000000
 
 int N, K;
-vector<int> tree, a(65536 + 2, 0);
+vector<int> tree, a(SIZE + 2, 0);
 
 void update(int node, int start, int end, int index, int value)
 {
@@ -44,14 +45,12 @@ int query(int node, int start, int end, int left, int right)
 
 int get_cnt(int idx)
 {
-    return query(1, 0, 65536, 0, idx);
+    return query(1, 0, SIZE, 0, idx);
 }
 
-int get_mid()
+int get_nth(int ideal_mid_cnt)
 {
-    int ideal_mid_cnt = (K + 1) / 2;
-
-    int low = 0, high = 65536, mid, result;
+    int low = 0, high = SIZE, mid, result;
     while (low <= high)
     {
         mid = (low + high) / 2;
@@ -79,30 +78,29 @@ int get_mid()
 
 signed main()
 {
-    scanf("%lld %lld", &N, &K);
-    int h = (int)ceil(log2(65536 + 2));
+    scanf("%lld", &N);
+    int h = (int)ceil(log2(SIZE + 2));
     int tree_size = (1 << (h + 1));
     tree.resize(tree_size, 0);
 
-    vector<int> inp(N, 0);
     for (int i = 0; i < N; i++)
-        scanf("%lld", &inp[i]);
-
-    int ans = 0;
-    for (int i = 0; i < K; i++)
     {
-        update(1, 0, 65536, inp[i], 1);
-    }
-    ans += get_mid();
+        int oper, b, c;
+        scanf("%lld", &oper);
 
-    for (int i = 0; i < N - K; i++)
-    {
-        update(1, 0, 65536, inp[i], -1);
-        update(1, 0, 65536, inp[i + K], 1);
-        ans += get_mid();
+        if (oper == 1)
+        {
+            scanf("%lld", &b);
+            int result = get_nth(b);
+            printf("%lld\n", result);
+            update(1, 0, SIZE, result, -1);
+        }
+        else if (oper == 2)
+        {
+            scanf("%lld %lld", &b, &c);
+            update(1, 0, SIZE, b, c);
+        }
     }
-
-    printf("%lld", ans);
 
     return 0;
 }
