@@ -1,49 +1,74 @@
 #include <stdio.h>
 #include <queue>
-#define abs(_x) ((_x) > 0 ? (_x) : -(_x))
 
 using namespace std;
 
-int N, M;
+int X, Y;
 int map[72][102];
 int visited[72][102];
 
-int dx[4] = {1,-1,0,0};
-int dy[4] = {0,0,1,-1};
+int dx[8] = {1, 1, 0, -1, -1, -1, 0, 1};
+int dy[8] = {0, 1, 1, 1, 0, -1, -1, -1};
 
 int cnt;
 
-int bfs(int x, int y) {
-    queue <pair<int, int>> q;
-    q.emplace(x, y);
-    visited[y][x] = 1;
-    while(!q.empty()) {
-        auto cur = q.front();
+bool bfs(int sx, int sy)
+{
+    queue<pair<int, int>> q;
+    q.emplace(sx, sy);
+    visited[sy][sx] = 1;
+
+    bool result = true;
+
+    while (!q.empty())
+    {
+        auto [x, y] = q.front();
         q.pop();
 
-        for(int i=0;i<4;i++) {
-            int rx = cur.first + dx[i];
-            int ry = cur.second + dy[i];
+        for (int i = 0; i < 8; i++)
+        {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
 
-            if(rx < 0 || ry < 0 || rx >= N || ry >= M) continue;
-            if(abs(map[y][x] - map[ry][rx]) <= 1 && visited[ry][rx] == 0) {
-                visited[ry][rx] = 1;
-                q.emplace(rx, ry);
-            }
+            if (nx < 0 || ny < 0 || nx >= X || ny >= Y)
+                continue;
+
+            if (map[y][x] < map[ny][nx])
+                result = false;
+
+            if (visited[ny][nx])
+                continue;
+
+            if (map[y][x] != map[ny][nx])
+                continue;
+
+            visited[ny][nx] = 1;
+            q.emplace(nx, ny);
         }
     }
+
+    return result;
 }
 
-int main() {
-    scanf("%d %d", &N, &M);
-    for(int y=0;y<M;y++) for(int x=0;x<N;x++) scanf("%d", &map[y][x]);
-    for(int y=0;y<M;y++) for(int x=0;x<N;x++) {
-        if(map[y][x] != 0 && visited[y][x] == 0) {
-            printf("%d %d\n", x, y);
-            bfs(x, y);
-            cnt++;
+int main()
+{
+    scanf("%d %d", &Y, &X);
+    for (int y = 0; y < Y; y++)
+        for (int x = 0; x < X; x++)
+        {
+            scanf("%d", &map[y][x]);
         }
-    }
+
+    for (int y = 0; y < Y; y++)
+        for (int x = 0; x < X; x++)
+        {
+            if (visited[y][x])
+                continue;
+
+            if (bfs(x, y))
+                cnt++;
+        }
+
     printf("%d", cnt);
     return 0;
 }
