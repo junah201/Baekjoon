@@ -1,0 +1,20 @@
+table {
+	display: flex;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	overflow-x: auto;
+	overflow-y: hidden;
+	border: 1px solid #444444;
+	border-collapse: collapse;
+}
+
+tbody {
+	display: flex;
+}
+
+th,
+td {
+	display: block;
+	height: 55px;
+	border: 1px solid #444444;
+}
